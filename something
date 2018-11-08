@@ -1,0 +1,146 @@
+from random import choice as random_choice
+
+class species(object):
+    def __init__(self, name, body_type, ambulation, disposition, diet,
+                vision_type, intelligence_level):
+        body_types = ['Mammal', 'Lizard', 'Human', 'Arachnid', 'Bug', 'Robot', 'Gelatinous', 'Energy']
+        ambulations = ['Bipedal', 'Quadrapedal']
+        dispositions = ['Warlike', 'Friendly', 'Curious', 'Shy', 'Agressive', 'Honorable']
+        diets = ['Omnivorous', 'Herbivorous', 'Carnivorous', 'Energy Absorber']
+        vision_types = ['Infrared', 'Normal', 'Echo-Location']
+        intelligence_levels = ['Sentient', 'Highly intelligent Animal', 'Unintelligent Animal', 'Hive Mind']
+
+        self.name = name + 'ians'
+        self.body_type = random_choice(body_types)
+        if self.body_type in ['Gelatinous', 'Energy']:
+            self.ambulation = 'N/A'
+        else:
+            self.ambulation = random_choice(ambulations)
+        self.disposition = random_choice(dispositions)
+        self.diet = random_choice(diets)
+        self.vision_type = random_choice(vision_types)
+        self.intelligence_level = random_choice(intelligence_levels)
+
+
+class planet(object):
+    def __init__(self, star_system, name, biome, size ,inhabited, inhabitants):
+        self.star_system = star_system
+        self.name = name
+        self.size = choose_planet_size()
+        self.biome = choose_planet_biome()
+        self.inhabited = random_choice([True, False])
+        if self.inhabited == True:
+            self.inhabitants = species(self.star_system, '', '', '', '', '', '')
+
+
+class star_system(object):
+    def __init__(self, name, planets, planet_count):
+        self.name = choose_system_name()
+        self.planet_count = choose_planet_count()
+        self.planets = []
+        planet_number = 0
+        while planet_number < (self.planet_count):
+            planet_number = planet_number + 1
+            current_planet = planet(self.name, self.name + ' ' + str(planet_number), '', '', '', '')
+            self.planets.append(current_planet)
+
+
+def choose_planet_biome():
+    return random_choice(['Ice', 'Lava', 'Desert', 'Forest'])
+
+
+def choose_planet_size():
+    return random_choice(['Small', 'Medium', 'Large', 'Giant'])
+
+
+def choose_system_name():
+    return random_choice(['Alpha', 'Beta', 'Kappa', 'Delta', 'Epsilon', 'Gamma',
+                            'Omega', 'Zeta'])
+
+
+def choose_planet_count():
+    return random_choice(range(1,9))
+
+
+
+def generate_star_system():
+    current_system = star_system('', [], 0)
+    print 'Star System: ' + current_system.name
+    print 'Planets: ' + str(current_system.planet_count)
+    for planet in current_system.planets:
+        print '     Name: ' + planet.name
+        print '     Size: ' + planet.size
+        print '     Environment: ' + planet.biome
+        print '     Inhabited: ' + str(planet.inhabited)
+        if planet.inhabited == True:
+            print '          Species Name: ' + planet.inhabitants.name
+            print '          Body Type: ' + planet.inhabitants.body_type
+            print '          Ambulation: ' + planet.inhabitants.ambulation
+            print '          Disposition: ' + planet.inhabitants.disposition
+            print '          Diet: ' + planet.inhabitants.diet
+            print '          Vision: ' + planet.inhabitants.vision_type
+            print '          Intelligence: ' + planet.inhabitants.intelligence_level
+        print '\n'
+
+
+def generate_planet():
+    current_system_name = choose_system_name()
+    current_planet = planet(current_system_name, current_system_name + ' ' + str(choose_planet_count()), '', '', '', '')
+    print 'Name: ' + current_planet.name
+    print 'Size: ' + current_planet.size
+    print 'Environment: ' + current_planet.biome
+    print 'Inhabited: ' + str(current_planet.inhabited)
+    if current_planet.inhabited == True:
+        print '     Species Name: ' + current_planet.inhabitants.name
+        print '     Body Type: ' + current_planet.inhabitants.body_type
+        print '     Ambulation: ' + current_planet.inhabitants.ambulation
+        print '     Disposition: ' + current_planet.inhabitants.disposition
+        print '     Diet: ' + current_planet.inhabitants.diet
+        print '     Vision: ' + current_planet.inhabitants.vision_type
+        print '     Intelligence: ' + current_planet.inhabitants.intelligence_level
+    print '\n'
+
+
+def generate_species():
+    current_system_name = choose_system_name()
+    current_species = species(current_system_name, '', '', '', '', '', '')
+    print 'Species Name: ' + current_species.name
+    print 'Body Type: ' + current_species.body_type
+    print 'Ambulation: ' + current_species.ambulation
+    print 'Disposition: ' + current_species.disposition
+    print 'Diet: ' + current_species.diet
+    print 'Vision: ' + current_species.vision_type
+    print 'Intelligence: ' + current_species.intelligence_level
+    print '\n'
+
+
+def main():
+    print "Welcome to the Environment Generator\n"
+    while True:
+        print "1. Star System"
+        print "2. Planet"
+        print "3. Species"
+        print "\n"
+        input_choice = raw_input("Please select a task -> ")
+        print "\n"
+        if input_choice in ['1', '2', '3']:
+            break
+        else:
+            print "Invalid Choice\n"
+    if input_choice == '1':
+        #   Let's make a whole Star System
+        print 'Generating a star system.\n'
+        generate_star_system()
+    elif input_choice == '2':
+        #   Let's make a planet
+        print 'Generating a planet.\n'
+        generate_planet()
+    elif input_choice == '3':
+        #   Let's make a species
+        print 'Generating a species.\n'
+        generate_species()
+    else:
+        #   Can't do that
+        print "I don't know how to do that yet"
+
+main()
